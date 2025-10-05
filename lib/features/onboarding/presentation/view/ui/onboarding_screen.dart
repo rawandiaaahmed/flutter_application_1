@@ -54,7 +54,7 @@ class OnboardingScreen extends StatelessWidget {
                           Image.asset(item.image),
                           SizedBox(height: 30.h),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 50),
+                            padding: EdgeInsets.symmetric(horizontal: 50.h),
                             child: Text(
                               item.title,
 
@@ -118,6 +118,11 @@ class OnboardingScreen extends StatelessWidget {
                                 context.pushNamed(StringRoute.login);
                               } else {
                                 context.read<OnboardingCubit>().nextPage();
+
+                                _controller.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeIn,
+                                );
                               }
                             },
                             child: Padding(
