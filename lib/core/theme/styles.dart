@@ -12,6 +12,14 @@ class TextStyles {
     fontSize: 12.sp,
     fontWeight: FontWeightHelper.medium,
   );
+  static final TextStyle font13Bold = TextStyle(
+    fontSize: 13.sp,
+    fontWeight: FontWeightHelper.bold,
+  );
+  static final TextStyle font14regular = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.regular,
+  );
   static final TextStyle font10 = TextStyle(fontSize: 10.sp);
 
   static final TextStyle font14Medium = TextStyle(
