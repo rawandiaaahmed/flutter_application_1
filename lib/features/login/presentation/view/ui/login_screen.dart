@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/core/theme/app_colors.dart';
 
 import 'package:flutter_application_1/core/theme/app_string.dart';
 
@@ -9,6 +10,8 @@ import 'package:flutter_application_1/core/widgets/custom_text_field.dart';
 import 'package:flutter_application_1/features/login/presentation/view/widgets/forget_password_widget.dart';
 import 'package:flutter_application_1/features/login/presentation/view/widgets/header_widget.dart';
 import 'package:flutter_application_1/features/login/presentation/view/widgets/login_widget.dart';
+import 'package:flutter_application_1/features/login/presentation/view_model/cubit/login_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -61,10 +64,39 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 ForgetPasswordWidget(),
                 SizedBox(height: 12.h),
-                CustomButton(
-                  text: AppStrings.signIn,
-                  formKey: _formKey,
-                  onValid: () {},
+                BlocConsumer<LoginCubit, LoginState>(
+                  listener: (context, state) {
+                    if (state is LoginSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.message,
+                            style: TextStyle(color: AppColors.bottom),
+                          ),
+                          backgroundColor: AppColors.white,
+                        ),
+                      );
+                    } else if (state is LoginFailure) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is LoginLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return CustomButton(
+                      text: AppStrings.signIn,
+                      formKey: _formKey,
+                      onValid: () {
+                        context.read<LoginCubit>().login(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                      },
+                    );
+                  },
                 ),
                 SizedBox(height: 50.h),
                 LoginWidget(),

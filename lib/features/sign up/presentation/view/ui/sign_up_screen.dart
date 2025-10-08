@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/core/theme/app_colors.dart';
 
 import 'package:flutter_application_1/core/theme/app_string.dart';
 import 'package:flutter_application_1/core/widgets/custom_button.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_application_1/features/login/presentation/view/widgets/a
 import 'package:flutter_application_1/features/sign%20up/presentation/view/widgets/header_sign_up_widget.dart';
 import 'package:flutter_application_1/features/sign%20up/presentation/view/widgets/phone_number_widget.dart';
 import 'package:flutter_application_1/features/sign%20up/presentation/view/widgets/sign_up_widget.dart';
+import 'package:flutter_application_1/features/sign%20up/presentation/view_model/cubit/sign_up_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,6 +29,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController name = TextEditingController();
   final TextEditingController phone = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    name.dispose();
+    phone.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +71,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   label: Text(AppStrings.email),
                 ),
                 SizedBox(height: 10.h),
+                PhoneNumberWidget(controller: phone),
+
                 CustomTextField(
                   prefixIcon: SvgPicture.asset(AssetManager.password),
                   controller: passwordController,
@@ -64,12 +81,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isPassword: true,
                 ),
                 SizedBox(height: 10.h),
-                PhoneNumberWidget(controller: phone),
+                CustomTextField(
+                  prefixIcon: SvgPicture.asset(AssetManager.password),
+                  controller: confirmPasswordController,
+                  hintText: '************',
+                  label: Text(AppStrings.confirmPassword),
+                  isPassword: true,
+                ),
+
                 SizedBox(height: 30.h),
-                CustomButton(
-                  text: AppStrings.signup,
-                  formKey: _formKey,
-                  onValid: () {},
+                BlocConsumer<SignUpCubit, SignUpState>(
+                  listener: (context, state) {
+                    if (state is SignUpSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.message,
+                            style: TextStyle(color: AppColors.bottom),
+                          ),
+                          backgroundColor: AppColors.white,
+                        ),
+                      );
+                    } else if (state is SignUpFailure) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is SignUpLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return CustomButton(
+                      text: AppStrings.signup,
+                      formKey: _formKey,
+                      onValid: () {
+                        context.read<SignUpCubit>().signUp(
+                          name: name.text,
+                          phone: phone.text,
+                          email: emailController.text,
+                          password: passwordController.text,
+                          confirmPassword: confirmPasswordController.text,
+                        );
+                      },
+                    );
+                  },
                 ),
                 SizedBox(height: 30.h),
                 SignUpWidget(),
