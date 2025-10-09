@@ -1,0 +1,137 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/core/theme/app_colors.dart';
+
+import 'package:flutter_application_1/core/theme/app_string.dart';
+import 'package:flutter_application_1/core/widgets/custom_button.dart';
+import 'package:flutter_application_1/core/widgets/custom_text_field.dart';
+import 'package:flutter_application_1/features/login/presentation/view/widgets/appbar_widget.dart';
+
+import 'package:flutter_application_1/features/sign%20up/presentation/view/widgets/header_sign_up_widget.dart';
+import 'package:flutter_application_1/features/sign%20up/presentation/view/widgets/phone_number_widget.dart';
+import 'package:flutter_application_1/features/sign%20up/presentation/view/widgets/sign_up_widget.dart';
+import 'package:flutter_application_1/features/sign%20up/presentation/view_model/cubit/sign_up_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    lastName.dispose();
+    firstName.dispose();
+    phone.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+
+              children: [
+                SizedBox(height: 20.h),
+                AppbarWidget(),
+                SizedBox(height: 8.h),
+                HeaderSignUpWidget(),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                  prefixIcon: SvgPicture.asset(AssetManager.name),
+                  controller: firstName,
+                  hintText: 'Olivia',
+                  label: Text(AppStrings.firstName),
+                ),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                  prefixIcon: SvgPicture.asset(AssetManager.name),
+                  controller: lastName,
+                  hintText: 'Mohamed',
+                  label: Text(AppStrings.lastName),
+                ),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                  prefixIcon: SvgPicture.asset(AssetManager.email),
+                  controller: emailController,
+                  hintText: 'olivia@untitledui.com',
+                  label: Text(AppStrings.email),
+                ),
+                SizedBox(height: 10.h),
+                PhoneNumberWidget(controller: phone),
+
+                CustomTextField(
+                  prefixIcon: SvgPicture.asset(AssetManager.password),
+                  controller: passwordController,
+                  hintText: '************',
+                  label: Text(AppStrings.password),
+                  isPassword: true,
+                ),
+
+                SizedBox(height: 30.h),
+                BlocConsumer<SignUpCubit, SignUpState>(
+                  listener: (context, state) {
+                    if (state is SignUpSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.message,
+                            style: TextStyle(color: AppColors.bottom),
+                          ),
+                          backgroundColor: AppColors.white,
+                        ),
+                      );
+                    } else if (state is SignUpFailure) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is SignUpLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return CustomButton(
+                      text: AppStrings.signup,
+                      formKey: _formKey,
+                      onValid: () {
+                        context.read<SignUpCubit>().signUp(
+                          firstName: firstName.text,
+                          lastName: lastName.text,
+                          phone: phone.text,
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 30.h),
+                SignUpWidget(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
