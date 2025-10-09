@@ -116,6 +116,10 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                         backgroundColor: AppColors.white,
                       ),
                     );
+                    context.pushNamed(
+                      StringRoute.newpassword,
+                      arguments: pinController.text,
+                    );
                   } else if (state is VerifyFailure) {
                     ScaffoldMessenger.of(
                       context,
@@ -134,7 +138,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                         email: widget.email,
                         code: pinController.text,
                       );
-                      context.pushNamed(StringRoute.newpassword);
                     },
                   );
                 },

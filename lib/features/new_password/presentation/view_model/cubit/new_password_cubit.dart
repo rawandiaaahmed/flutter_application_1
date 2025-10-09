@@ -10,16 +10,16 @@ class NewPasswordCubit extends Cubit<NewPasswordState> {
   NewPasswordCubit(this.newPasswordRepo) : super(NewPasswordInitial());
   final NewPasswordRepo newPasswordRepo;
   Future<void> newPassword({
-    required String email,
-    required String password,
-    required String confirmPassword,
+    required String currentPassword,
+    required String newPassword,
+    required String confirmNewPassword,
   }) async {
     emit(NewPasswordLouding());
     final response = await newPasswordRepo.newpassword(
       NewPasswordRequestModel(
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword,
+        newPassword: newPassword,
+        confirmNewPassword: confirmNewPassword,
+        currentPassword: currentPassword,
       ),
     );
     response.fold(

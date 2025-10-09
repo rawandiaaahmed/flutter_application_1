@@ -1,10 +1,20 @@
-import 'package:flutter_application_1/core/network/end_ponits.dart';
-
 class ErrorModel {
+  final int statusCode;
   final String message;
+  final Map<String, List<String>> errors;
 
-  ErrorModel({required this.message});
+  ErrorModel({
+    required this.statusCode,
+    required this.message,
+    required this.errors,
+  });
   factory ErrorModel.fromJson(Map<String, dynamic> jsonData) {
-    return ErrorModel(message: jsonData[ApiKey.message] ?? 'Unknown error');
+    return ErrorModel(
+      statusCode: jsonData['statusCode'] ?? 0,
+      message: jsonData['message'] ?? '',
+      errors: (jsonData['errors'] as Map<String, dynamic>).map(
+        (key, value) => MapEntry(key, List<String>.from(value)),
+      ),
+    );
   }
 }

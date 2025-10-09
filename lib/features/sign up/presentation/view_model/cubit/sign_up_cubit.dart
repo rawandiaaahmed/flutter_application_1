@@ -10,20 +10,20 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(this.signUpRepo) : super(SignUpInitial());
   final SignUpRepo signUpRepo;
   Future<void> signUp({
-    required String name,
+    required String firstName,
     required String phone,
     required String email,
     required String password,
-    required String confirmPassword,
+    required String lastName,
   }) async {
     emit(SignUpLoading());
     final response = await signUpRepo.signUp(
       SignUpRequestModel(
-        name: name,
+        firstName: firstName,
         phone: phone,
         email: email,
         password: password,
-        confirmPassword: confirmPassword,
+        lastName: lastName,
       ),
     );
     response.fold(

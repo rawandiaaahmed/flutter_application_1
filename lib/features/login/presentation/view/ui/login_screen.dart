@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            state.message,
+                            'Login Success',
                             style: TextStyle(color: AppColors.bottom),
                           ),
                           backgroundColor: AppColors.white,

@@ -1,25 +1,25 @@
 class SignUpRequestModel {
-  final String name;
+  final String firstName;
   final String phone;
   final String email;
   final String password;
-  final String confirmPassword;
+  final String lastName;
 
   SignUpRequestModel({
-    required this.name,
+    required this.firstName,
     required this.phone,
     required this.email,
     required this.password,
-    required this.confirmPassword,
+    required this.lastName,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "name": name,
+      "firstName": firstName,
       "phone": phone,
       "email": email,
       "password": password,
-      "confirmPassword": confirmPassword,
+      "lastName": lastName,
     };
   }
 }

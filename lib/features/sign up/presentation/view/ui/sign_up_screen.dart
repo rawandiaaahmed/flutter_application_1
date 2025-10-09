@@ -27,16 +27,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController name = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
   final TextEditingController phone = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController lastName = TextEditingController();
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    confirmPasswordController.dispose();
-    name.dispose();
+    lastName.dispose();
+    firstName.dispose();
     phone.dispose();
     super.dispose();
   }
@@ -59,9 +58,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 10.h),
                 CustomTextField(
                   prefixIcon: SvgPicture.asset(AssetManager.name),
-                  controller: name,
-                  hintText: 'olivia ahmed',
-                  label: Text(AppStrings.name),
+                  controller: firstName,
+                  hintText: 'Olivia',
+                  label: Text(AppStrings.firstName),
+                ),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                  prefixIcon: SvgPicture.asset(AssetManager.name),
+                  controller: lastName,
+                  hintText: 'Mohamed',
+                  label: Text(AppStrings.lastName),
                 ),
                 SizedBox(height: 10.h),
                 CustomTextField(
@@ -78,14 +84,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: passwordController,
                   hintText: '************',
                   label: Text(AppStrings.password),
-                  isPassword: true,
-                ),
-                SizedBox(height: 10.h),
-                CustomTextField(
-                  prefixIcon: SvgPicture.asset(AssetManager.password),
-                  controller: confirmPasswordController,
-                  hintText: '************',
-                  label: Text(AppStrings.confirmPassword),
                   isPassword: true,
                 ),
 
@@ -117,11 +115,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       formKey: _formKey,
                       onValid: () {
                         context.read<SignUpCubit>().signUp(
-                          name: name.text,
+                          firstName: firstName.text,
+                          lastName: lastName.text,
                           phone: phone.text,
                           email: emailController.text,
                           password: passwordController.text,
-                          confirmPassword: confirmPasswordController.text,
                         );
                       },
                     );

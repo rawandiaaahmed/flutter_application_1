@@ -26,12 +26,15 @@ class _NewPaaswordScreenState extends State<NewPaaswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController confirmpasswordController =
       TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController newpasswordController = TextEditingController();
+  final TextEditingController currentpasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
     confirmpasswordController.dispose();
-    passwordController.dispose();
+    newpasswordController.dispose();
+    currentpasswordController.dispose();
     super.dispose();
   }
 
@@ -53,17 +56,25 @@ class _NewPaaswordScreenState extends State<NewPaaswordScreen> {
 
                 CustomTextField(
                   prefixIcon: SvgPicture.asset(AssetManager.password),
-                  controller: passwordController,
+                  controller: currentpasswordController,
                   hintText: '************',
-                  label: Text(AppStrings.password),
+                  label: Text(AppStrings.currentPassword),
                   isPassword: true,
                 ),
                 SizedBox(height: 10.h),
                 CustomTextField(
                   prefixIcon: SvgPicture.asset(AssetManager.password),
-                  controller: passwordController,
+                  controller: newpasswordController,
                   hintText: '************',
-                  label: Text(AppStrings.confirmPassword),
+                  label: Text(AppStrings.newPassword),
+                  isPassword: true,
+                ),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                  prefixIcon: SvgPicture.asset(AssetManager.password),
+                  controller: confirmpasswordController,
+                  hintText: '************',
+                  label: Text(AppStrings.confirmNewPassword),
                   isPassword: true,
                 ),
 
@@ -96,11 +107,10 @@ class _NewPaaswordScreenState extends State<NewPaaswordScreen> {
                       formKey: _formKey,
                       onValid: () {
                         context.read<NewPasswordCubit>().newPassword(
-                          email: widget.email,
-                          password: passwordController.text,
-                          confirmPassword: confirmpasswordController.text,
+                          currentPassword: currentpasswordController.text,
+                          confirmNewPassword: confirmpasswordController.text,
+                          newPassword: newpasswordController.text,
                         );
-                        context.pushNamed(StringRoute.passwordSuccess);
                       },
                     );
                   },

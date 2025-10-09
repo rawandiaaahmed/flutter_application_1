@@ -16,9 +16,9 @@ class LoginRepo {
     try {
       final response = await api.post(EndPoint.signIn, data: requst.toJson());
       final user = LoginResponseModel.fromJson(response);
-      final decodedToken = JwtDecoder.decode(user.token);
-      CacheHelper().saveData(key: ApiKey.token, value: user.token);
-      CacheHelper().saveData(key: ApiKey.id, value: decodedToken[ApiKey.id]);
+      final decodedToken = JwtDecoder.decode(user.accessToken);
+      CacheHelper().saveData(key: ApiKey.token, value: user.accessToken);
+      CacheHelper().saveData(key: ApiKey.id, value: decodedToken[ApiKey.sup]);
       return Right(user);
     } on ServerException catch (e) {
       return Left(e.errModel.message);

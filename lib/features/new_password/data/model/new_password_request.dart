@@ -1,19 +1,19 @@
 class NewPasswordRequestModel {
-  final String email;
-  final String password;
-  final String confirmPassword;
+  final String currentPassword;
+  final String newPassword;
+  final String confirmNewPassword;
 
   NewPasswordRequestModel({
-    required this.email,
-    required this.password,
-    required this.confirmPassword,
+    required this.currentPassword,
+    required this.newPassword,
+    required this.confirmNewPassword,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "email": email,
-      "password": password,
-      "confirmPassword": confirmPassword,
+      "currentPassword": currentPassword,
+      "newPassword": newPassword,
+      "confirmNewPassword": confirmNewPassword,
     };
   }
 }

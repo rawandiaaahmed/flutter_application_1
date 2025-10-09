@@ -1,24 +1,20 @@
 class LoginResponseModel {
-  final String message;
-  final String token;
-  final User user;
+  final String accessToken;
+  final String expiresAtUtc;
+  final String refreshToken;
 
   LoginResponseModel({
-    required this.message,
-    required this.token,
-    required this.user,
+    required this.accessToken,
+    required this.expiresAtUtc,
+    required this.refreshToken,
   });
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
-      message: json['message'] ?? '',
-      token: json['token'] ?? '',
-      user: User.fromJson(json['user'] ?? {}),
+      accessToken: json['accessToken'] ?? '',
+      expiresAtUtc: json['expiresAtUtc'] ?? '',
+      refreshToken: json['refreshToken'] ?? '',
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'message': message, 'token': token, 'user': user.toJson()};
   }
 }
 

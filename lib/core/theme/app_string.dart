@@ -25,9 +25,14 @@ class AppStrings {
   static const String newpassword = "set new password";
   static const String newpassword2 = "Your New Password Must be Different to";
   static const String newpassword3 = "Previously Used Password";
-  static const String confirmPassword = "Confirm Password";
+  static const String confirmNewPassword = "Confirm new password";
   static const String confirm = "Confirm";
   static const String login = "Login";
+  static const String firstName = "First name";
+  static const String lastName = "Last name";
+
+  static const String currentPassword = "Current Password";
+  static const String newPassword = "New Password";
   static const String passwordChanged = "Password Changed!";
   static const String passwordChanged2 =
       "Password changed successfully, you can";

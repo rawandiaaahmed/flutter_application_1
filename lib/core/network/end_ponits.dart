@@ -1,10 +1,10 @@
 class EndPoint {
-  static String uthBaseUrl = "https://supermarket-dan1.onrender.com/api/v1/";
-  static String signIn = "auth/signIn";
-  static String signUp = "auth/signUp";
-  static String resentEmail = "auth/resetPassCode";
-  static String verfication = "auth/activeResetPass";
-  static String newpassword = "auth/resetPassword";
+  static String uthBaseUrl = "https://accessories-eshop.runasp.net/api/";
+  static String signIn = "auth/login";
+  static String signUp = "auth/register";
+  static String resentEmail = "auth/forgot-password";
+  static String verfication = "auth/resend-otp";
+  static String newpassword = "auth/change-password";
 }
 
 class ApiKey {
@@ -14,6 +14,7 @@ class ApiKey {
   static String code = "code";
   static String message = "message";
   static String id = "id";
+  static String sup = "sub";
   static String name = "name";
   static String phone = "phone";
 
